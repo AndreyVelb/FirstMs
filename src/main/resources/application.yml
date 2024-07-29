@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: FirstMs
+
+  profiles:
+    active: '@activatedProperties@'

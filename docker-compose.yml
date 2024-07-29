@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+
+  firstms:
+    container_name: FirstMs
+    image: first-microservice
+    build:
+      context: .
+    ports:
+      - "${FIRST_HOST_PORT:-8082}:${FIRST_PORT:-8081}"
+    environment:
+        - FIRST_PORT=${FIRST_PORT}
+        - FIRST_HOST_PORT=${FIRST_HOST_PORT}
+        - SECOND_PORT=${SECOND_PORT}
+        - FIRST_DB_USER=${FIRST_DB_USER}
+        - FIRST_DB_PASSWORD=${FIRST_DB_PASSWORD}
+        - FIRST_DB=${FIRST_DB}
+        - FIRST_DB_PORT=${FIRST_DB_PORT}
+    depends_on:
+      - firstdb
+      - secondms
+    networks:
+      - ms-network
+
+  secondms:
+    container_name: SecondMs
+    image: second-microservice
+    build:
+      context: D:\work\Microservices\SecondMs
+    ports:
+      - "${SECOND_HOST_PORT:-8084}:${SECOND_PORT:-8083}"
+    environment:
+      - SECOND_PORT=${SECOND_PORT}
+      - SECOND_HOST_PORT=${SECOND_HOST_PORT}
+      - FIRST_PORT=${FIRST_PORT}
+      - SECOND_DB_USER=${SECOND_DB_USER}
+      - SECOND_DB_PASSWORD=${SECOND_DB_PASSWORD}
+      - SECOND_DB=${SECOND_DB}
+      - SECOND_DB_PORT=${SECOND_DB_PORT}
+    depends_on:
+      - seconddb
+    networks:
+      - ms-network
+
+
+  firstdb:
+    image: postgres:16.2
+    container_name: FirstDb
+    environment:
+      POSTGRES_USER: ${FIRST_DB_USER}
+      POSTGRES_PASSWORD: ${FIRST_DB_PASSWORD}
+      POSTGRES_DB: ${FIRST_DB}
+    ports:
+      - "${FIRST_DB_PORT}:${FIRST_DB_PORT}"
+    command: ["postgres", "-p", "${FIRST_DB_PORT}"]
+    networks:
+      - ms-network
+
+  seconddb:
+    image: postgres:16.2
+    container_name: SecondDb
+    environment:
+      POSTGRES_USER: ${SECOND_DB_USER}
+      POSTGRES_PASSWORD: ${SECOND_DB_PASSWORD}
+      POSTGRES_DB: ${SECOND_DB}
+    ports:
+      - "${SECOND_DB_PORT}:${SECOND_DB_PORT}"
+    command: ["postgres", "-p", "${SECOND_DB_PORT}"]
+    networks:
+      - ms-network
+
+
+networks:
+  ms-network:
+    driver: bridge
