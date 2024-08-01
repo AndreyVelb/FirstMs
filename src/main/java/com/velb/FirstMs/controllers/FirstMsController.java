@@ -23,7 +23,7 @@ public class FirstMsController {
     @PostMapping("/entities")
     @ResponseStatus(HttpStatus.CREATED)
     public Long saveFirstEntity(@RequestBody SaveFirstEntityRequest request) {
-        logger.info("Was called first ms");
+        logger.info("First ms was called");
         return firstEntityService.save(request);
     }
 
