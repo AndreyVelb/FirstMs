@@ -15,22 +15,12 @@ public class SecondMsCallServiceImpl implements SecondMsCallService{
     @Autowired
     private final RestTemplate restTemplate;
 
-    @Value("${cluster.secondms.host}")
-    private String SECOND_MS_HOST;
-
-    @Value("${cluster.secondms.port}")
-    private String SECOND_MS_PORT;
-
     @Value("${cluster.secondms.url}")
-    private String SECOND_MS_URL;
+    private String SECOND_MS_BASE_URL;
 
     @Override
     public SaveSecondEntityResponse saveInSecondTable(SaveSecondEntityRequest request) {
         return restTemplate.postForEntity(
-                createSecondMsBaseUrl() + "/entities", request, SaveSecondEntityResponse.class).getBody();
-    }
-
-    private String createSecondMsBaseUrl() {
-        return "http://" + SECOND_MS_HOST + ":" + SECOND_MS_PORT + SECOND_MS_URL;
+                SECOND_MS_BASE_URL + "/entities", request, SaveSecondEntityResponse.class).getBody();
     }
 }

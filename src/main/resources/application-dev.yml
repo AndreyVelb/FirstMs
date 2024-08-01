@@ -21,6 +21,4 @@ spring:
 
 cluster:
   secondms:
-    port: ${SECOND_PORT:8087}
-    host: secondms
-    url: /api/v1/second
+    url: http://secondms:${SECOND_PORT:8087}//api/v1/second
