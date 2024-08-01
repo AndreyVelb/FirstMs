@@ -4,6 +4,7 @@ import com.velb.FirstMs.controllers.dto.SaveFirstEntityRequest;
 import com.velb.FirstMs.controllers.dto.SaveSecondEntityRequest;
 import com.velb.FirstMs.controllers.dto.SaveSecondEntityResponse;
 import com.velb.FirstMs.services.firstentity.FirstEntityService;
+import com.velb.FirstMs.services.kafka.KafkaProducerService;
 import com.velb.FirstMs.services.secondmscall.SecondMsCallServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ public class FirstMsController {
 
     private final SecondMsCallServiceImpl secondMsCallServiceImpl;
     private final FirstEntityService firstEntityService;
+    private final KafkaProducerService kafkaProducerService;
     private static final Logger logger = LoggerFactory.getLogger(FirstMsController.class);
 
     @PostMapping("/entities")
@@ -32,5 +34,12 @@ public class FirstMsController {
     public SaveSecondEntityResponse callSecondMs(@RequestBody SaveSecondEntityRequest request) {
         logger.info("First ms call second ms");
         return secondMsCallServiceImpl.saveInSecondTable(request);
+    }
+
+    @PostMapping("/send-second-topic")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void sendToSecondTopic(@RequestBody String message) {
+        logger.info("First ms sending message to second kafka topic");
+        kafkaProducerService.publishMessage(message);
     }
 }
