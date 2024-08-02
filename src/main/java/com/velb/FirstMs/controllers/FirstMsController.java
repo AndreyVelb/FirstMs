@@ -38,8 +38,8 @@ public class FirstMsController {
 
     @PostMapping("/send-second-topic")
     @ResponseStatus(HttpStatus.CREATED)
-    public void sendToSecondTopic(@RequestBody String message) {
+    public void sendToSecondTopic(@RequestBody SaveSecondEntityRequest request) {
         logger.info("First ms sending message to second kafka topic");
-        kafkaProducerService.publishMessage(message);
+        kafkaProducerService.publishMessage(request);
     }
 }

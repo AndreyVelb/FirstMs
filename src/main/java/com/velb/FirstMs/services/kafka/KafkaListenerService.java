@@ -1,6 +1,8 @@
 package com.velb.FirstMs.services.kafka;
 
+import com.velb.FirstMs.model.dto.SaveFirstEntityDto;
+
 public interface KafkaListenerService {
 
-    void consume(String message);
+    void consume(SaveFirstEntityDto dto);
 }
