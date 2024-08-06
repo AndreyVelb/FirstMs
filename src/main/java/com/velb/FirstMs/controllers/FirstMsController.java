@@ -25,21 +25,20 @@ public class FirstMsController {
     @PostMapping("/entities")
     @ResponseStatus(HttpStatus.CREATED)
     public Long saveFirstEntity(@RequestBody SaveFirstEntityRequest request) {
-        logger.info("First ms was called");
+        logger.info("FIRST_MS CALLED SECOND_MS");
         return firstEntityService.save(request);
     }
 
     @PostMapping("/call-second")
     @ResponseStatus(HttpStatus.CREATED)
     public SaveSecondEntityResponse callSecondMs(@RequestBody SaveSecondEntityRequest request) {
-        logger.info("First ms call second ms");
+        logger.info("FIRST_MS CALL SECOND_MS");
         return secondMsCallServiceImpl.saveInSecondTable(request);
     }
 
     @PostMapping("/send-second-topic")
     @ResponseStatus(HttpStatus.CREATED)
     public void sendToSecondTopic(@RequestBody SaveSecondEntityRequest request) {
-        logger.info("First ms sending message to second kafka topic");
         kafkaProducerService.publishMessage(request);
     }
 }

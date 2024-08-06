@@ -1,13 +1,15 @@
 package com.velb.FirstMs.model.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SaveSecondEntityDto implements Serializable {
 
     @Serial
