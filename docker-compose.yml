@@ -1,5 +1,3 @@
-version: '3'
-
 services:
 
   firstms:
@@ -17,11 +15,13 @@ services:
         - FIRST_DB_PASSWORD=${FIRST_DB_PASSWORD}
         - FIRST_DB=${FIRST_DB}
         - FIRST_DB_PORT=${FIRST_DB_PORT}
+        - KAFKA_INSIDE_PORT=${KAFKA_INSIDE_PORT}
     depends_on:
       - firstdb
+      - zookeeper
+      - kafka
     networks:
       - ms-network
-
 
   firstdb:
     image: postgres:16.2
@@ -33,6 +33,33 @@ services:
     ports:
       - "${FIRST_DB_PORT}:${FIRST_DB_PORT}"
     command: ["postgres", "-p", "${FIRST_DB_PORT}"]
+    networks:
+      - ms-network
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}"
+    networks:
+      - ms-network
+
+  kafka:
+    container_name: kafka
+    image: wurstmeister/kafka:latest
+    ports:
+      - "${KAFKA_PORT}:${KAFKA_PORT}"
+    environment:
+      KAFKA_BROKER_ID: ${KAFKA_BROKER_ID}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:${ZOOKEEPER_PORT}
+      KAFKA_LISTENERS: INSIDE://kafka:${KAFKA_INSIDE_PORT},PLAINTEXT://localhost:${KAFKA_PORT}
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_PORT: ${KAFKA_PORT}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - zookeeper
     networks:
       - ms-network
 
