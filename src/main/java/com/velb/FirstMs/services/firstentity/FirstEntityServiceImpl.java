@@ -1,4 +1,4 @@
-package com.velb.FirstMs.services;
+package com.velb.FirstMs.services.firstentity;
 
 import com.velb.FirstMs.controllers.dto.SaveFirstEntityRequest;
 import com.velb.FirstMs.model.entity.FirstEntity;

@@ -1,4 +1,4 @@
-package com.velb.FirstMs.services;
+package com.velb.FirstMs.services.secondmscall;
 
 import com.velb.FirstMs.controllers.dto.SaveSecondEntityRequest;
 import com.velb.FirstMs.controllers.dto.SaveSecondEntityResponse;
@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
-public class SecondMsCallServiceImpl implements SecondMsCallService{
+public class SecondMsCallServiceImpl implements SecondMsCallService {
 
     @Autowired
     private final RestTemplate restTemplate;
