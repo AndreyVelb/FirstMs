@@ -19,6 +19,35 @@ spring:
     init:
       mode: always
 
+  kafka:
+    bootstrap-servers: kafka:${KAFKA_INSIDE_PORT}
+    consumer:
+      group-id: group-id
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            value:
+              default:
+                type: com.velb.FirstMs.model.dto.SaveFirstEntityDto
+          trusted:
+            packages: com.velb
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+
 cluster:
   secondms:
     url: http://secondms:${SECOND_PORT:8087}//api/v1/second
+
+  kafka:
+    topic:
+      first-topic: first-topic
+      second-topic: second-topic
