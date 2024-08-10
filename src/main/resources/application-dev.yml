@@ -27,10 +27,6 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring:
-          json:
-            value:
-              default:
-                type: com.velb.FirstMs.model.dto.SaveFirstEntityDto
           trusted:
             packages: com.velb
     producer:
