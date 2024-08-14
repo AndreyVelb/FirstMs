@@ -1,5 +1,6 @@
 package com.velb.FirstMs.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.velb.FirstMs.controllers.dto.SaveFirstEntityRequest;
 import com.velb.FirstMs.controllers.dto.SaveSecondEntityRequest;
 import com.velb.FirstMs.controllers.dto.SaveSecondEntityResponse;
@@ -38,7 +39,7 @@ public class FirstMsController {
 
     @PostMapping("/send-second-topic")
     @ResponseStatus(HttpStatus.CREATED)
-    public void sendToSecondTopic(@RequestBody SaveSecondEntityRequest request) {
+    public void sendToSecondTopic(@RequestBody SaveSecondEntityRequest request) throws JsonProcessingException {
         kafkaProducerService.publishMessage(request);
     }
 }
