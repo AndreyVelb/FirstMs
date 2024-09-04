@@ -39,6 +39,16 @@ spring:
               type:
                 headers: false
 
+  cache:
+    type: redis
+  data:
+    redis:
+      host: redis
+      port: 6379
+      ttl: 10000
+#    password: ${REDIS_PASSWORD}
+
+
 cluster:
   secondms:
     url: http://secondms:${SECOND_PORT:8087}//api/v1/second
