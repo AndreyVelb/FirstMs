@@ -20,6 +20,7 @@ services:
       - firstdb
       - zookeeper
       - kafka
+      - redis
     networks:
       - ms-network
 
@@ -60,6 +61,18 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - zookeeper
+    networks:
+      - ms-network
+
+  redis:
+    image: redis:7.4.0
+    container_name: redis
+#    environment:
+#      - REDIS_PASSWORD=${REDIS_PASSWORD}
+#      - REDIS_USER=${REDIS_USER}
+#      - REDIS_USER_PASSWORD=${REDIS_USER_PASSWORD}
+    ports:
+      - "6379:6379"
     networks:
       - ms-network
 

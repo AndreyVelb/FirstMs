@@ -24,13 +24,9 @@ spring:
     consumer:
       group-id: group-id
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       properties:
         spring:
-          json:
-            value:
-              default:
-                type: com.velb.FirstMs.model.dto.SaveFirstEntityDto
           trusted:
             packages: com.velb
     producer:
@@ -42,6 +38,16 @@ spring:
             add:
               type:
                 headers: false
+
+  cache:
+    type: redis
+  data:
+    redis:
+      host: redis
+      port: 6379
+      ttl: 10000
+#    password: ${REDIS_PASSWORD}
+
 
 cluster:
   secondms:
