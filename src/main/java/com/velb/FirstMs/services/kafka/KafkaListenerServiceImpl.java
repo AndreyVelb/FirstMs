@@ -26,11 +26,12 @@ public class KafkaListenerServiceImpl implements KafkaListenerService {
 
         SaveFirstEntityDto dto = objectMapper.readValue(record.value(), SaveFirstEntityDto.class);
         logger.info("SAVING FIRST_ENTITY IN DB");
-        firstEntityRepository.save(
-                FirstEntity.builder()
-                        .lastName(dto.getLastName())
-                        .firstName(dto.getFirstName())
-                        .phoneNumber(dto.getPhoneNumber())
-                        .build());
+
+        var entity = new FirstEntity();
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setPhoneNumber(dto.getPhoneNumber());
+
+        firstEntityRepository.save(entity);
     }
 }
